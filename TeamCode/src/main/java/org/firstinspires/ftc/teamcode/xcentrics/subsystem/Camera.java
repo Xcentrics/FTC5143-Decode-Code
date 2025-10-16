@@ -24,10 +24,13 @@ public class Camera extends SubsystemBase {
     private AprilTagProcessor aprilTag;
     private AprilTagDetection desiredTag = null;
     private TelemetryManager panlesTelemetry;
-    private static int foundID;
+    private static int foundID = null;
     private static boolean cameraOn = true;
+    private AutoPaths auto;
+    private Follower follower;
     
-    public Camera(HardwareMap hwMap, String name){
+    public Camera(HardwareMap hwMap, String name,Follower follower){
+        auto = new AutoPaths(follower);
         panlesTelemetry = PanelsTelemetry.INSTANCE.getTelemerty();
 
         aprilTag = new AprilTagProcessor.Builder().build();
@@ -43,22 +46,34 @@ public class Camera extends SubsystemBase {
 
 
     }
-
+    public int foundID(){
+        if(foundID != null){
+            return foundID;
+        } else {
+            return -1;
+        }
+    }
+    public void useCamera(boolean bo){
+        cameraOn = bo;
+    }
     public void perodic(){
         if(cameraOn){
          if (detection.metadata != null) {
                     //  Check to see if we want to track towards this tag.
                     if (detection.id == PPG_TAG_ID) {
+                        auto.updateStateMachinePPG();
                         targetFound = true;
                         desiredTag = detection;
                         foundID = 21; // This should likely be PPG_TAG_ID or the corresponding state machine ID
                         break;  // don't look any further.
                     } else if (detection.id == PGP_TAG_ID) {
+                        auto.updateStateMachinePGP();
                         targetFound = true;
                         desiredTag = detection;
                         foundID = 22; // This should likely be PGP_TAG_ID or the corresponding state machine ID
                         break;  // don't look any further.
                     } else if (detection.id == GPP_TAG_ID) {
+                        auto.updateStateMachineGPP();
                         targetFound = true;
                         desiredTag = detection;
                         foundID = 23; // This should likely be GPP_TAG_ID or the corresponding state machine ID
