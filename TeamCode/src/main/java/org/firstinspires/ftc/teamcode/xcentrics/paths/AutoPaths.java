@@ -15,16 +15,10 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
     private final Pose PGPPose = new Pose(100, 59.5, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose GPPPose = new Pose(100, 35.5, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
-    private PathChain getPXX,getXPX,getXXG;
-    private PathChain scorePXX,scoreXPX,scoreXXG;
-    private PathChain getPGX,getXGX,getXXP;
-    private PathChain scorePGX,scoreXGX,scoreXXP;
-    private PathChain getGXX,getGPX,getGXP;
-    private PathChain scoreGXX,scoreGPX,scoreGXP;
+    private PathChain getBXX,getXBX,getXXB;
+    private PathChain scoreBXX,scoreXBX,scoreXXB;
+
     private Follower follower;
-    private int pathStatePPG; // Current state machine value
-    private int pathStatePGP; // Current state machine value
-    private int pathStateGPP; // Current state machine value
     private Camera camera;
     private boolean isRed = false; //What alliance are we on
     private final int PPGx = 83, PGPy = 58, GPPy = 33;
@@ -37,7 +31,7 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
     //paths for PPG pattern
     public void buildPathsPPG(){
         //grab the first purple
-       getPXX = follower.pathBuilder()
+       getBXX = follower.pathBuilder()
                .addPath(new BezierLine(new Pose(73,83),new Pose(42,83)))
                .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                .addPath(new BezierLine(new Pose(42,83),new Pose(35,83)))
@@ -45,18 +39,18 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
                .build();
        //score the first purple
         if(isRed) {
-            scorePXX = follower.pathBuilder()
+            scoreBXX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(35, 83), new Pose(73, 83)))
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
                     .build();
         } else {
-            scorePXX = follower.pathBuilder()
+            scoreBXX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(35, 83),scorePoseBlue))
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(45))
                     .build();
         }
        //grab the second purple
-        getXPX = follower.pathBuilder()
+        getXBX = follower.pathBuilder()
                 .addPath(new BezierLine(new Pose(73,83),new Pose(42,83)))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                 .addPath(new BezierLine(new Pose(42,38),new Pose(30,83)))
@@ -64,30 +58,30 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
                 .build();
         //score the second purple
         if(isRed) {
-            scoreXPX = follower.pathBuilder()
+            scoreXBX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(30, 83), new Pose(73, 83)))
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
                     .build();
         } else {
-            scoreXPX = follower.pathBuilder()
+            scoreXBX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(30,83),scorePoseBlue))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(45))
                     .build();
         }
         //grab the last green
-        getXXG = follower.pathBuilder()
+        getXXB = follower.pathBuilder()
                 .addPath(new BezierLine(new Pose(73,83),new Pose(42,83)))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                 .addPath(new BezierLine(new Pose(42,83),new Pose(25,83)))
                 .build();
 
         if(isRed){
-            scoreXXG = follower.pathBuilder()
+            scoreXXB = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(25,83),new Pose(73,83)))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(135))
                     .build();
         } else {
-            scoreXXG = follower.pathBuilder()
+            scoreXXB = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(25,83),scorePoseBlue))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(45))
                     .build();
@@ -95,7 +89,7 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
     }
     public void buildPathsPGP(){
         //grab the first purple
-        getPGX = follower.pathBuilder()
+        getBXX = follower.pathBuilder()
                 .addPath(new BezierLine(new Pose(73, PGPy),new Pose(42, PGPy)))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                 .addPath(new BezierLine(new Pose(42, PGPy),new Pose(35, PGPy)))
@@ -103,18 +97,18 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
                 .build();
         //score the first purple
         if(isRed){
-            scorePGX = follower.pathBuilder()
+            scoreBXX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(35, PGPy),new Pose(73,83)))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(135))
                     .build();
         } else {
-            scorePGX = follower.pathBuilder()
+            scoreBXX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(35, PGPy),scorePoseBlue))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(45))
                     .build();
         }
         //grab the second purple
-        getXGX = follower.pathBuilder()
+        getXBX = follower.pathBuilder()
                 .addPath(new BezierLine(new Pose(73, PGPy),new Pose(42, PGPy)))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                 .addPath(new BezierLine(new Pose(42, PGPy),new Pose(30, PGPy)))
@@ -122,29 +116,29 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
                 .build();
         //score the second purple
         if(isRed){
-            scoreXGX = follower.pathBuilder()
+            scoreXBX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(30, PGPy),new Pose(73,83)))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(135))
                     .build();
         } else {
-            scoreXGX = follower.pathBuilder()
+            scoreXBX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(30, PGPy),scorePoseBlue))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(45))
                     .build();
         }
         //grab the last green
-        getXXP = follower.pathBuilder()
+        getXXB = follower.pathBuilder()
                 .addPath(new BezierLine(new Pose(73, PGPy),new Pose(42,83)))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                 .addPath(new BezierLine(new Pose(42,83),new Pose(25,83)))
                 .build();
        if(isRed){
-           scoreXXP = follower.pathBuilder()
+           scoreXXB = follower.pathBuilder()
                    .addPath(new BezierLine(new Pose(25,83),scorePoseRed))
                    .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(135))
                    .build();
        } else {
-           scoreXXP = follower.pathBuilder()
+           scoreXXB = follower.pathBuilder()
                    .addPath(new BezierLine(new Pose(25,83),scorePoseBlue))
                    .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(45))
                    .build();
@@ -152,7 +146,7 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
     }
     public void buildPathsGPP(){
         //grab the first purple
-        getGXP = follower.pathBuilder()
+        getBXX = follower.pathBuilder()
                 .addPath(new BezierLine(new Pose(73, GPPy),new Pose(42, GPPy)))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                 .addPath(new BezierLine(new Pose(42, GPPy),new Pose(35, GPPy)))
@@ -160,18 +154,18 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
                 .build();
         //score the first purple
         if(isRed){
-            scoreGXX = follower.pathBuilder()
+            scoreBXX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(35, GPPy),new Pose(73,83)))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(135))
                     .build();
         } else {
-            scoreGXX = follower.pathBuilder()
+            scoreBXX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(35, GPPy),scorePoseBlue))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(45))
                     .build();
         }
         //grab the second purple
-        getGPX = follower.pathBuilder()
+        getXBX = follower.pathBuilder()
                 .addPath(new BezierLine(new Pose(73, GPPy),new Pose(42, GPPy)))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                 .addPath(new BezierLine(new Pose(42, GPPy),new Pose(30, GPPy)))
@@ -179,43 +173,32 @@ private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start P
                 .build();
         //score the second purple
         if(isRed){
-            scoreGPX = follower.pathBuilder()
+            scoreXBX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(30, GPPy),new Pose(73,83)))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(135))
                     .build();
         } else {
-            scoreGPX = follower.pathBuilder()
+            scoreXBX = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(30, GPPy),scorePoseBlue))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(45))
                     .build();
         }
         //grab the last green
-        getGXP = follower.pathBuilder()
+        getXXB = follower.pathBuilder()
                 .addPath(new BezierLine(new Pose(73, GPPy),new Pose(42, GPPy)))
                 .setLinearHeadingInterpolation(Math.toRadians(135),Math.toRadians(180))
                 .addPath(new BezierLine(new Pose(42, GPPy),new Pose(25, GPPy)))
                 .build();
         if(isRed){
-            scoreGXP = follower.pathBuilder()
+            scoreXXB = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(25, GPPy),new Pose(73,83)))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(135))
                     .build();
         } else {
-            scoreGXP = follower.pathBuilder()
+            scoreXXB = follower.pathBuilder()
                     .addPath(new BezierLine(new Pose(25, GPPy),scorePoseBlue))
                     .setLinearHeadingInterpolation(Math.toRadians(180),Math.toRadians(45))
                     .build();
         }
     }
-    // Setter methods for pathState variables placed at the class level
-    void setpathStatePPG(int newPathState) {
-        this.pathStatePPG = newPathState;
-    }
-    void setpathStatePGP(int newPathState) {
-        this.pathStatePGP = newPathState;
-    }
-    void setpathStateGPP(int newPathState) {
-        this.pathStateGPP = newPathState;
-    }
-
 }
