@@ -29,9 +29,9 @@ public class Constants {
             .turnTicksToInches(1)
             .leftPodY(-1)
             .rightPodY(-2.5)
-            .leftEncoder_HardwareMapName("leftFront")
-            .rightEncoder_HardwareMapName("rightRear")
-            .strafeEncoder_HardwareMapName("rightFront")
+            .leftEncoder_HardwareMapName("FL")
+            .rightEncoder_HardwareMapName("BR")
+            .strafeEncoder_HardwareMapName("FR")
             .leftEncoderDirection(Encoder.FORWARD)
             .rightEncoderDirection(Encoder.FORWARD)
             .strafeEncoderDirection(Encoder.FORWARD);
