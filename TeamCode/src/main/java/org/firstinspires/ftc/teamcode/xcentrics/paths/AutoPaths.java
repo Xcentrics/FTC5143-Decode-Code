@@ -11,6 +11,12 @@ public class AutoPaths {
 private final Pose startPose = new Pose(57, 80, Math.toRadians(90)); // Start Pose of our robot.
     private final Pose scorePoseBlue = new Pose(73, 83, Math.toRadians(45)); // Scoring Pose of our robot. It is facing the goal at a 115 degree angle.
     private final Pose scorePoseRed = new Pose(60,82,Math.toRadians(135));
+    private final int B1x = 30,B2x = 25,B3x = 20;
+    private final double P1y = 83, P2y = 58.5, P3y = 34;
+    private final int intakeHeading = 180;
+    private final Pose PPG1 = new Pose(B1x,P1y,r(intakeHeading)), PPG2 = new Pose(B1x,P1y,r(180)), PPG3 = new Pose(B3x,P1y,r(intakeHeading));
+    private final Pose PGP1 = new Pose(B1x,P2y,r(intakeHeading)), PGP2 = new Pose(B2x,P2y,r(intakeHeading)),PGP3 = new Pose(B3x,P2y,r(intakeHeading));
+    private final Pose GPP1 = new Pose(B1x,P3y,r(intakeHeading)), GPP2 = new Pose(B2x,P3y,r(intakeHeading)), GPP3 = new Pose(B3x,P3y,r(intakeHeading));
     private final Pose PPGPose = new Pose(100, 83.5, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose PGPPose = new Pose(100, 59.5, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose GPPPose = new Pose(100, 35.5, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -26,7 +32,10 @@ private final Pose startPose = new Pose(57, 80, Math.toRadians(90)); // Start Po
     public AutoPaths(Follower follower){
         this.follower = follower;
     }
-
+    //helper method bc i dont feel like typing math.toradians every time i want radians
+    private double r(int i){
+        return Math.toRadians(i);
+    }
     //paths for PPG pattern
     public void buildPathsPPG(){
         //grab the first purple
