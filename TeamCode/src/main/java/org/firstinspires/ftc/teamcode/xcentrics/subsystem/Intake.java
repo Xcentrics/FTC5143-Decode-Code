@@ -16,6 +16,12 @@ public class Intake extends SubsystemBase {
     public void setPower(double speed){
         this.speed = speed;
     }
+    public void intake(){
+
+    }
+    public void shoot(){
+
+    }
 
     @Override
     public void periodic() {

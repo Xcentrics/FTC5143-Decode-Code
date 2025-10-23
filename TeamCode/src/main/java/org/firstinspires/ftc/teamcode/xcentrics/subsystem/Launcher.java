@@ -18,6 +18,12 @@ public class Launcher extends SubsystemBase {
         fly = hardwareMap.get(DcMotorEx.class,"fly");
         fly.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+    public void setSpeed(double speed1){
+        speed = speed1;
+    }
+    public boolean canLaunch(){
+         return (fly.getVelocity() >= 900 && fly.getVelocity() <= 1100);
+    }
     @Override
     public void periodic(){
         fly.setVelocityPIDFCoefficients(p,i,d,0);
