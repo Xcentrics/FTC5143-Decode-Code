@@ -17,7 +17,7 @@ public class AutoPahts{
     private final int intakeHeading = 180;
 public class AutoPaths {
 private final Pose startPose = new Pose(57, 80, Math.toRadians(90)); // Start Pose of our robot.
-    =180;
+    
     private final Pose PPG1 = new Pose(b1x, p1y,r(intakeHeading)), PPG2 = new Pose(b2x,p1y,r(intakeHeading)), PPG3 = new Pose(b3x,p1y,r(intakeHeading));
     private final Pose PGP1 = new Pose(b1x,p2y,r(intakeHeading)), PGP2 = new Pose(b2x,p2y,r(intakeHeading)), PGP3 = new Pose(b3x,p2y,r(intakeHeading));
     private final Pose GPP1 = new Pose(b1x,p3y,r(intakeHeading)), GPP2 = new Pose(b2x,p3y,r(intakeHeading)), GPP3 = new Pose(b3x,p3y,r(intakeHeading));

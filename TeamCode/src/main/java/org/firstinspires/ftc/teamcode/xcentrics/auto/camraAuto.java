@@ -133,7 +133,7 @@ public class camraAuto extends OpMode{
         //move out of start zone
         follower.followPath(paths.getXBX);
         intake.stopIntake();
-        launcher.setSpeed(0);)
+        launcher.setSpeed(0);
         break;
     }
     }
