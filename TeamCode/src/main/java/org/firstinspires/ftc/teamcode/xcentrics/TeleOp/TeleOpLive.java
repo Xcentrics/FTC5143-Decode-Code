@@ -18,43 +18,117 @@ import org.firstinspires.ftc.teamcode.xcentrics.subsystem.Launcher;
 import java.util.function.Supplier;
 
 @TeleOp(name = "TeleOpLive")
-public class TeleOpLive extends OpMode {
+public class TeleOpLive extends OpMode 
+{
 
     Intake intake;
     Launcher launcher;
     Follower follower;
     TelemetryManager telemetryManager;
     GamepadEx drive1,drive2;
+    TeleOpPaths paths;
     private boolean autoDrive = false;
+    private static boolean isRed = true;
     private Supplier<PathChain> pathChainSupplier;
 
     @Override
-    public void init() {
+    public void init() 
+    {
 
-    intake = new Intake(hardwareMap,"intake");
+        intake = new Intake(hardwareMap,"intake");
 
-    launcher = new Launcher(hardwareMap,"launcher");
+        launcher = new Launcher(hardwareMap,"launcher");
 
-    follower = Constants.createFollower(hardwareMap);
+        follower = Constants.createFollower(hardwareMap);
 
-    telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
+        telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
 
-    drive1 = new GamepadEx(gamepad1);
-    drive2 = new GamepadEx(gamepad2);
+        paths = new TeleOpPaths(follower);
+
+        drive1 = new GamepadEx(gamepad1);
+        drive2 = new GamepadEx(gamepad2);
     }
 
     @Override
-    public void loop() {
+    public void loop() 
+    {
+        //set launcher speed
+        launcher.setSpeed(1000);
+        //update follower
         follower.update();
+
+        //update telemetry
         telemetryManager.update();
 
+        //set drive controls
         follower.setTeleOpDrive(
                 drive1.getLeftY(),
                 drive1.getLeftX(),
                 drive1.getRightX(),
-                true
+                false
         );
 
+        //intake controls
+        if(driver2.getButton("a"))
+        {
+            intake.runIntake(1);
+        }
+        else if(drive2.getButton("b"))
+        {
+            intake.runIntake(-1);
+        }
+        else
+        {
+            intake.stopIntake();
+        }
 
+        //launcher controls
+        if(drive2.getButton("x")){
+            if(launcher.canLaunch()){
+                launcher.launch();
+            }
+        }
+
+        //set what alliance we are on
+        if(driver1.getButton("right_bumper"))
+        {
+            if(driver1.getButton("dpad_left"))
+            {
+                isRed = false;
+            }
+        }
+
+        //auto drive
+        if(drive1.getButton("y")){
+            autoDrive(isRed);
+        }
+
+        //stop auto drive
+        if(drive1.getButton("a")){
+            autoDrive = false;
+            follower.stop();
+        }
+    }
+
+    private void autoDrive(boolean isRed)
+    {
+        if(!follower.isBusy())
+        {
+            follower.followPath(paths.score);
+        }
+    }
+    
+    //method for telemetry
+    private void updateTelemetry()
+    {
+        telemetry.addData("Auto Drive: ", autoDrive);
+        telemetry.addData("Is Red: ", isRed);
+        telemetry.addData("Launcher Speed: ", launcher.getCurrentSpeed());
+        telemetry.addData("Launcher Can Launch: ", launcher.canLaunch());
+        telemetryManager.addData("Auto Drive: ", autoDrive);
+        telemetryManager.addData("Is Red: ", isRed);
+        telemetryManager.addData("Launcher Speed: ", launcher.getCurrentSpeed());
+        telemetryManager.addData("Launcher Can Launch: ", launcher.canLaunch());
+        follower.addTelemetry(telemetryManager);
     }
 }

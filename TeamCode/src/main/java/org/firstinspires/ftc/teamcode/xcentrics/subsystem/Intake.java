@@ -17,10 +17,7 @@ public class Intake extends SubsystemBase {
         this.speed = speed;
     }
     public void intake(){
-
-    }
-    public void shoot(){
-
+        speed = 1.0;
     }
 
     @Override

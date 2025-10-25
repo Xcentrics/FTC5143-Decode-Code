@@ -37,64 +37,105 @@ public class camraAuto extends OpMode{
     @Override
     public void loop() {
         follower.update();
+        commandScheduler.getInstance().run();
+        stateMachene();
 
     }
     private void stateMachene(){
+
         switch(state){
-            case 0:
-            follower.turnToDegrees(90);
+          case -1:
+            //read the april tag to get the pattren
             camera.useCamera(true);
+            //run the command scheduler
+            commandScheduler.getInstance().run();
+            //build the paths based on the pattren detected
             if(camera.foundID() == 21){
-                paths.buildPathsGPP();
+                paths.buildPathsPPG();
                 incrament();
                 break;
-            } else if(camera.foundID()==22){
+            } else if(camera.foundID() == 22){
                 paths.buildPathsPGP();
                 incrament();
                 break;
             } else if(camera.foundID() == 23){
-                paths.buildPathsPPG();
+                paths.buildPathsGPP();
                 incrament();
                 break;
             }
-            
-            case 1:
-            
+        case 2:
+            //follow the paths based on the pattren detected
             follower.followPath(paths.getBXX);
             intake.intake();
             incrament();
             break;
-            
-            case 2:
-            if(!follower.isbusy()){
+        case 3:
+            //go to score pose
+            if(!follower.isBusy()){
                 follower.followPath(paths.scoreBXX);
+                launcher.setSpeed(1000);
                 incrament();
                 break;
             }
-            
-            case 3:
-            if(!follower.isbusy()){
-                if(launcher.canLaunch()){
-                    intake.shoot();;
-                }
-            }
-            incrament();
-            break;
-            
-            case 4:
-            follower.followPath(paths.getXBX);
-            intake.intake();
-            incrament();
-            break;
-
-            case 5:
-            if(!follower.isbusy()){
-                follower.followPath(paths.scoreXBX);
+        case 4:
+        //launch ball
+            if((!follower.isBusy()&&launcher.canLaunch())){
+                launcher.launch();
+                intake.stopIntake();
                 incrament();
                 break;
             }
-            
+        case 5:
+        //get the second ball
+         follower.followPath(paths.getXBX);
+         intake.intake();
+         incrament();
+         break;
+        case 6:
+        //go to score pose
+        if(!follower.isBusy()){
+            follower.followPath(paths.scoreXBX);
+            launcher.setSpeed(1000);
+            incrament();
+            break;
         }
+        case 7:
+        //score second ball
+        if((!follower.isBusy()&&launcher.canLaunch())){
+            launcher.launch();
+            intake.stopIntake();
+            incrament();
+            break;
+        }
+        case 8:
+        //get the third ball
+        follower.followPath(paths.getXXB);
+        intake.intake();
+        incrament();
+        break;
+        case 9:
+        //go to score pose
+        if(!follower.isBusy()){
+            follower.followPath(paths.scoreXXB);
+            launcher.setSpeed(1000);
+            incrament();;
+            break;
+        }
+        case 10:
+        //score the third ball 
+        if((!follower.isBusy()&&launcher.canLaunch())){
+            launcher.launch();
+            intake.stopIntake();
+            incrament();
+            break;
+        }
+        case 11:
+        //move out of start zone
+        follower.followPath(paths.getXBX);
+        intake.stopIntake();
+        launcher.setSpeed(0);)
+        break;
+    }
     }
     private void incrament(){
         state++;
