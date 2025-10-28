@@ -19,6 +19,9 @@ public class Intake extends SubsystemBase {
     public void intake(){
         speed = 1.0;
     }
+    public void stopIntake(){
+        speed = 0.0;
+    }
 
     @Override
     public void periodic() {
