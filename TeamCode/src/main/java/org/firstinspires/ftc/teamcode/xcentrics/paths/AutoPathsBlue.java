@@ -5,7 +5,7 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
-public class AutoPaths{
+public class AutoPathsBlue {
     //scoring pose of the robot
     private final Pose scorePose = new Pose(60,82,Math.toRadians(135));
     //the x value for the diffrent balls in each pattren
@@ -20,10 +20,10 @@ public class AutoPaths{
         private final Pose PPG1 = new Pose(b1x, p1y,r(intakeHeading)), PPG2 = new Pose(b2x,p1y,r(intakeHeading)), PPG3 = new Pose(b3x,p1y,r(intakeHeading));
         private final Pose PGP1 = new Pose(b1x,p2y,r(intakeHeading)), PGP2 = new Pose(b2x,p2y,r(intakeHeading)), PGP3 = new Pose(b3x,p2y,r(intakeHeading));
         private final Pose GPP1 = new Pose(b1x,p3y,r(intakeHeading)), GPP2 = new Pose(b2x,p3y,r(intakeHeading)), GPP3 = new Pose(b3x,p3y,r(intakeHeading));
-        private static PathChain getBXX,getXBX,getXXB,scoreBXX,scoreXBX,scoreXXB;
+        public static PathChain getBXX,getXBX,getXXB,scoreBXX,scoreXBX,scoreXXB;
 
         //auto path object
-        public AutoPaths(Follower follower){
+        public AutoPathsBlue(Follower follower){
             this.follower = follower;
         }
         //helper method becuase Math.toRadians is long

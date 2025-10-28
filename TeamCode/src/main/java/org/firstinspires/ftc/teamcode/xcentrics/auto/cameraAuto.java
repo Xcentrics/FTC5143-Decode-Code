@@ -1,28 +1,30 @@
 package org.firstinspires.ftc.teamcode.xcentrics.auto;
 
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-import org.firstinspires.ftc.teamcode.xcentrics.paths.AutoPaths;
+import org.firstinspires.ftc.teamcode.xcentrics.paths.AutoPathsRed;
 import org.firstinspires.ftc.teamcode.xcentrics.subsystem.Camera;
 import org.firstinspires.ftc.teamcode.xcentrics.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.xcentrics.subsystem.Launcher;
 
 @Autonomous(name = "auto")
-public class camraAuto extends OpMode{
+@Configurable
+public class cameraAuto extends OpMode{
     private Camera camera;
     private Follower follower;
     private PanelsTelemetry panelsTelemetry;
     private Intake intake;
     private Launcher launcher;
-    private AutoPaths paths;
+    private AutoPathsRed paths;
     private int state = -1;
+    private boolean isRed = false;
 
     @Override
     public void init() {
@@ -30,14 +32,14 @@ public class camraAuto extends OpMode{
         camera = new Camera(hardwareMap,"camera",follower,telemetry);
         intake = new Intake(hardwareMap,"intake");
         launcher = new Launcher(hardwareMap,"launcher");
-        paths = new AutoPaths(follower);
+        paths = new AutoPathsRed(follower);
         
     }
 
     @Override
     public void loop() {
         follower.update();
-        commandScheduler.getInstance().run();
+        CommandScheduler.getInstance().run();
         stateMachene();
 
     }
@@ -48,7 +50,7 @@ public class camraAuto extends OpMode{
             //read the april tag to get the pattren
             camera.useCamera(true);
             //run the command scheduler
-            commandScheduler.getInstance().run();
+            CommandScheduler.getInstance().run();
             //build the paths based on the pattren detected
             if(camera.foundID() == 21){
                 paths.buildPathsPPG();
@@ -67,12 +69,14 @@ public class camraAuto extends OpMode{
             //follow the paths based on the pattren detected
             follower.followPath(paths.getBXX);
             intake.intake();
+            CommandScheduler.getInstance().run();
             incrament();
             break;
         case 3:
             //go to score pose
             if(!follower.isBusy()){
                 follower.followPath(paths.scoreBXX);
+                CommandScheduler.getInstance().run();
                 launcher.setSpeed(1000);
                 incrament();
                 break;
@@ -80,14 +84,18 @@ public class camraAuto extends OpMode{
         case 4:
         //launch ball
             if((!follower.isBusy()&&launcher.canLaunch())){
+                CommandScheduler.getInstance().run();
                 launcher.launch();
+                CommandScheduler.getInstance().run();
                 intake.stopIntake();
+                CommandScheduler.getInstance().run();
                 incrament();
                 break;
             }
         case 5:
         //get the second ball
          follower.followPath(paths.getXBX);
+         CommandScheduler.getInstance().run();
          intake.intake();
          incrament();
          break;
@@ -95,15 +103,20 @@ public class camraAuto extends OpMode{
         //go to score pose
         if(!follower.isBusy()){
             follower.followPath(paths.scoreXBX);
+            CommandScheduler.getInstance().run();
             launcher.setSpeed(1000);
+            CommandScheduler.getInstance().run();
             incrament();
             break;
         }
         case 7:
         //score second ball
         if((!follower.isBusy()&&launcher.canLaunch())){
+            CommandScheduler.getInstance().run();
             launcher.launch();
+            CommandScheduler.getInstance().run();
             intake.stopIntake();
+            CommandScheduler.getInstance().run();
             incrament();
             break;
         }
@@ -117,27 +130,36 @@ public class camraAuto extends OpMode{
         //go to score pose
         if(!follower.isBusy()){
             follower.followPath(paths.scoreXXB);
+            CommandScheduler.getInstance().run();
             launcher.setSpeed(1000);
+            CommandScheduler.getInstance().run();
             incrament();;
             break;
         }
         case 10:
         //score the third ball 
         if((!follower.isBusy()&&launcher.canLaunch())){
+            CommandScheduler.getInstance().run();
             launcher.launch();
+            CommandScheduler.getInstance().run();
             intake.stopIntake();
+            CommandScheduler.getInstance().run();
             incrament();
             break;
         }
         case 11:
         //move out of start zone
         follower.followPath(paths.getXBX);
+            CommandScheduler.getInstance().run();
         intake.stopIntake();
+            CommandScheduler.getInstance().run();
         launcher.setSpeed(0);
+            CommandScheduler.getInstance().run();
         break;
     }
     }
     private void incrament(){
+        CommandScheduler.getInstance().run();
         state++;
     }
     private void setState(int i){

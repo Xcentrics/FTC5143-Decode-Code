@@ -8,14 +8,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.xcentrics.paths.AutoPaths;
+import org.firstinspires.ftc.teamcode.xcentrics.paths.AutoPathsRed;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
@@ -31,12 +27,12 @@ public class Camera extends SubsystemBase {
     private TelemetryManager panlesTelemetry;
     private static int foundID = -1;
     private static boolean cameraOn = true;
-    private AutoPaths auto;
+    private AutoPathsRed auto;
     private Follower follower;
     Telemetry telemetry;
     
     public Camera(HardwareMap hwMap, String name, Follower follower, Telemetry telemetry){
-        auto = new AutoPaths(follower,this);
+        auto = new AutoPathsRed(follower);
         panlesTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
         this.telemetry = telemetry;
         aprilTag = new AprilTagProcessor.Builder().build();
