@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.xcentrics.TeleOp.debug;
 
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -32,6 +33,9 @@ public class visionDebug extends OpMode {
         } else if (gamepad1.dpad_up) {
             camera.useCamera(true);
         }
+        camera.telemetry();
+        telemetry.update();
+        PanelsTelemetry.INSTANCE.getTelemetry().update();
     }
 
   // end method telemetryAprilTag()

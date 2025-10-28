@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.xcentrics.TeleOp;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -12,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.xcentrics.paths.TeleOpPaths;
 import org.firstinspires.ftc.teamcode.xcentrics.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.xcentrics.subsystem.Launcher;
 
@@ -69,13 +71,13 @@ public class TeleOpLive extends OpMode
         );
 
         //intake controls
-        if(driver2.getButton("a"))
+        if(drive2.getButton(GamepadKeys.Button.A))
         {
-            intake.runIntake(1);
+            intake.intake();
         }
-        else if(drive2.getButton("b"))
+        else if(drive2.getButton(GamepadKeys.Button.B))
         {
-            intake.runIntake(-1);
+            intake.setPower(-1);
         }
         else
         {
@@ -83,30 +85,32 @@ public class TeleOpLive extends OpMode
         }
 
         //launcher controls
-        if(drive2.getButton("x")){
+        if(drive2.getButton(GamepadKeys.Button.A)){
             if(launcher.canLaunch()){
                 launcher.launch();
             }
         }
 
         //set what alliance we are on
-        if(driver1.getButton("right_bumper"))
+        if(drive1.getButton(GamepadKeys.Button.LEFT_BUMPER))
         {
-            if(driver1.getButton("dpad_left"))
+            if(drive1.getButton(GamepadKeys.Button.RIGHT_BUMPER) && !isRed)
             {
                 isRed = false;
+            } else if(drive1.getButton(GamepadKeys.Button.RIGHT_BUMPER) && !isRed) {
+                isRed = true;
             }
         }
 
         //auto drive
-        if(drive1.getButton("y")){
+        if(drive1.getButton(GamepadKeys.Button.B)){
             autoDrive(isRed);
         }
 
         //stop auto drive
-        if(drive1.getButton("a")){
+        if(drive1.getButton(GamepadKeys.Button.X)){
             autoDrive = false;
-            follower.stop();
+            follower.breakFollowing();
         }
     }
 
@@ -123,12 +127,9 @@ public class TeleOpLive extends OpMode
     {
         telemetry.addData("Auto Drive: ", autoDrive);
         telemetry.addData("Is Red: ", isRed);
-        telemetry.addData("Launcher Speed: ", launcher.getCurrentSpeed());
         telemetry.addData("Launcher Can Launch: ", launcher.canLaunch());
         telemetryManager.addData("Auto Drive: ", autoDrive);
         telemetryManager.addData("Is Red: ", isRed);
-        telemetryManager.addData("Launcher Speed: ", launcher.getCurrentSpeed());
         telemetryManager.addData("Launcher Can Launch: ", launcher.canLaunch());
-        follower.addTelemetry(telemetryManager);
     }
 }

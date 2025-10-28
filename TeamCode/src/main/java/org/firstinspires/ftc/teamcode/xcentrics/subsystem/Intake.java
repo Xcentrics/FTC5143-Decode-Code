@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.xcentrics.subsystem;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+@Configurable
 public class Intake extends SubsystemBase {
     private DcMotor intake;
     public static double speed = 0;
