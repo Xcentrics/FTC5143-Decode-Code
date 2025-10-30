@@ -45,7 +45,7 @@ public class TeleOpLive extends OpMode
 
         telemetryManager = PanelsTelemetry.INSTANCE.getTelemetry();
 
-        paths = new TeleOpPaths(follower);
+       // paths = new TeleOpPaths(follower);
 
         drive1 = new GamepadEx(gamepad1);
         drive2 = new GamepadEx(gamepad2);
@@ -103,9 +103,9 @@ public class TeleOpLive extends OpMode
         }
 
         //auto drive
-        if(drive1.getButton(GamepadKeys.Button.B)){
-            autoDrive(isRed);
-        }
+//        if(drive1.getButton(GamepadKeys.Button.B)){
+//            autoDrive(isRed);
+//        }
 
         //stop auto drive
         if(drive1.getButton(GamepadKeys.Button.X)){
@@ -113,7 +113,7 @@ public class TeleOpLive extends OpMode
             follower.breakFollowing();
         }
     }
-
+/*
     private void autoDrive(boolean isRed)
     {
         if(!follower.isBusy())
@@ -121,7 +121,7 @@ public class TeleOpLive extends OpMode
             follower.followPath(paths.score);
         }
     }
-    
+    */
     //method for telemetry
     private void updateTelemetry()
     {
