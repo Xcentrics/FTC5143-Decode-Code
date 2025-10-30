@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.xcentrics.paths.AutoPaths;
+import org.firstinspires.ftc.teamcode.xcentrics.paths.AutoPathsBlue;
 import org.firstinspires.ftc.teamcode.xcentrics.paths.AutoPathsRed;
 import org.firstinspires.ftc.teamcode.xcentrics.subsystem.Camera;
 import org.firstinspires.ftc.teamcode.xcentrics.subsystem.Intake;
@@ -22,7 +24,7 @@ public class cameraAuto extends OpMode{
     private PanelsTelemetry panelsTelemetry;
     private Intake intake;
     private Launcher launcher;
-    private AutoPathsRed paths;
+    private AutoPaths paths;
     private int state = -1;
     private boolean isRed = false;
 
@@ -32,8 +34,11 @@ public class cameraAuto extends OpMode{
         camera = new Camera(hardwareMap,"camera",follower,telemetry);
         intake = new Intake(hardwareMap,"intake");
         launcher = new Launcher(hardwareMap,"launcher");
-        paths = new AutoPathsRed(follower);
-        
+        if(isRed) {
+            paths = new AutoPathsRed(follower);
+        } else {
+            paths = new AutoPathsBlue(follower);
+        }
     }
 
     @Override
